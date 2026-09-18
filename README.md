@@ -11,7 +11,7 @@ The owner must do this click himself; it cannot be done from here:
 1. Go to the [Mintlify dashboard](https://dashboard.mintlify.com) and sign in.
 2. Create a new documentation site and choose **Import from GitHub**.
 3. Select the `russfranky/thatmgmt-docs` repo.
-4. Mintlify deploys from `main` on every push. Site config lives in `docs.json` (Mintlify new format; legacy `mint.json` kept as fallback).
+4. Mintlify deploys from `main` on every push. Site config lives in `docs/docs.json` (Mintlify docs root is `docs/`).
 
 ## Regenerate the API reference
 
@@ -33,7 +33,7 @@ The plan is to serve these docs at `docs.thatmgmt.com`. That needs a DNS record 
 
 ## Repo layout
 
-- `docs.json`: site name, nav, theme, links.
+- `docs/docs.json`: site name, nav, theme, links.
 - `docs/`: hand-written MDX pages (start, guides, webhooks, AI agents, roadmap).
 - `docs/api/`: generated MDX API reference. Do not edit by hand.
 - `spec/openapi.json`: the real spec snapshot the reference was generated from.

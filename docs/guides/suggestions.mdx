@@ -1,0 +1,26 @@
+# Get suggestions
+
+`GET /v1/domains/suggestions` returns alternative domains for a search query. It is read-only.
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  "https://api.thatmgmt.com/v1/domains/suggestions?query=acmewidgets&pageSize=10&tlds=com,io,co"
+```
+
+## Parameters
+
+| Name | Required | Description |
+| --- | --- | --- |
+| `query` | yes | Search query. |
+| `pageSize` | no | Positive integer page size. |
+| `tlds` | no | Comma-separated TLD filter. |
+
+## Typical flow
+
+1. Call suggestions with the user's idea and a TLD filter.
+2. Feed each candidate to [check availability](/guides/availability) with `optimizeFor=SPEED`.
+3. Re-check the shortlist with `optimizeFor=ACCURACY`, then [lock a quote](/guides/quote) on the winner.
+
+## Responses
+
+`200` returns the suggestion list. `401` means the key is missing or invalid. `503` means the route composition is not wired.

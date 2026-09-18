@@ -1,0 +1,52 @@
+# Quickstart
+
+Get your first availability check and locked quote in about five minutes. You need an API key from your ThatMgmt operator (see [authentication](/authentication)).
+
+Set your key once:
+
+```bash
+export TMGMT_API_KEY="your-key-here"
+```
+
+## 1. Check the API is alive
+
+No authentication needed:
+
+```bash
+curl https://api.thatmgmt.com/health/live
+```
+
+A `200` means the API is up.
+
+## 2. Check domain availability
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  "https://api.thatmgmt.com/v1/domains/availability?domain=example.com"
+```
+
+A `200` returns the availability result for the domain. A `401` means your key is missing or invalid.
+
+## 3. Lock a quote
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  "https://api.thatmgmt.com/v1/domains/quote?domain=example.com&period=1"
+```
+
+The quote binds the wholesale cost plus the flat 10% platform cut into one payable total. Provider quote tokens are never returned. This call never purchases anything.
+
+## 4. Prepare the registration
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  "https://api.thatmgmt.com/v1/domains/prepare-registration?domain=example.com&period=1"
+```
+
+This returns the safety-checked registration plan only. It never executes.
+
+## What is next
+
+- [Check availability](/guides/availability) and [get suggestions](/guides/suggestions) for discovery flows.
+- [Lock a quote](/guides/quote) to understand the locked-quote primitive.
+- [Concepts](/concepts) for pricing, approvals, budgets, and the error model.

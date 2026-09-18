@@ -1,0 +1,29 @@
+# Roadmap
+
+An honest status page. Updated 2026-09-18.
+
+## Live today
+
+- Domain availability checks, name suggestions, locked quotes, and registration preparation.
+- Portfolio reads across domains, certificates, commerce, aftermarket, parking, hosting, and notifications, with entitlement gating.
+- DNS reads and dry-run DNS change previews.
+- Customer sub-account reads and dry-run plans.
+- Order, subscription, and operation reads.
+- Offering coverage matrix and machine-readable capability discovery.
+- Privy crypto-deposit webhook intake with Svix signature verification.
+- Pricing: wholesale plus a flat 10% platform cut, no subscription, no tiers.
+
+## Built but gated, not live
+
+Registration, renewal, and transfer execution exists in code (supplier write handlers, payment-to-execution saga, dry-run harness) and passed a full dry-run, but it is deliberately not wired into the live API: the kill switch is tripped and the spend path is not connected. No supplier write can happen through the API today. This page will change only when the gated rollout completes.
+
+## Not started
+
+- Self-serve API key issuance. Keys are issued by the operator today.
+- Custom docs domain. These docs will move to `docs.thatmgmt.com` when DNS is set.
+
+## What we will not do
+
+- Present execution as live before the rollout completes.
+- Put supplier branding on customer surfaces.
+- Guess prices: quotes fail closed when cost provenance is stale.

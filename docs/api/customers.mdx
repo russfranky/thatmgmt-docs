@@ -1,0 +1,105 @@
+# Customers
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+Customer sub-account reads and dry-run plans.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `POST /v1/customers/dry-run`
+
+Dry-run plan for creating a sub-account. Write-gated, default OFF, never executed live.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Request body
+
+JSON body with email, nameFirst, nameLast, and optional marketId.
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/customers/{customerId}`
+
+Customer account details by customer id. No verified list endpoint exists; callers supply ids.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `customerId` | path | yes | (string) |
+| `includes` | query | no | Comma-separated optional includes (contact_info, tax_ids, phone_numbers, addresses). (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `POST /v1/customers/{customerId}/dry-run`
+
+Dry-run plan for updating, deleting, or setting the password of a sub-account. Write-gated, default OFF, never executed live.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `customerId` | path | yes | (string) |
+
+### Request body
+
+JSON body with operation (update_subaccount \| delete_subaccount \| set_subaccount_password) plus operation fields.
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/customers/{customerId}/status`
+
+Customer account status.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `customerId` | path | yes | (string) |
+| `auditClientIp` | query | yes | Audited client IP for the status read. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---

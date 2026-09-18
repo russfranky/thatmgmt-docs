@@ -1,0 +1,31 @@
+# ThatMgmt
+
+ThatMgmt is a white-label domain reseller platform with an API-first design. It gives you one clean interface to check domain availability, lock a price, prepare a registration, and manage a domain portfolio, without reseller dashboards or upsell mazes.
+
+The live API is read and discovery plus locked quotes. You can check availability, get name suggestions, lock a quote, prepare a registration, read your portfolio, and read DNS. The API never executes a purchase, renewal, transfer, or DNS change today. See the [roadmap](/roadmap) for an honest status.
+
+## Who it is for
+
+- **AI agents.** The API is built for machine callers: capability discovery, clean errors, and a locked-quote primitive that an agent can reason about before spending. Start with [For AI agents](/ai-agents).
+- **Builders.** Check availability and lock a price from your own code with two GET calls. See the [quickstart](/quickstart).
+- **Crypto users.** Crypto checkout is the primary payment rail: each customer gets a unique deposit address and pays from any wallet. See [webhooks](/webhooks).
+- **Agencies.** Manage client portfolios through portfolio reads, health views, and renewal-risk views, all white-label with no supplier branding on customer surfaces.
+
+## Pricing
+
+Wholesale plus a flat 10% platform cut. No subscription, no tiers. Zero-charge changes stay free. The cut rides inside the locked quote, so the price you approve is the price bound to your budget.
+
+## Base URL
+
+```
+https://api.thatmgmt.com
+```
+
+All examples in these docs use this base URL. The OpenAPI spec file lists a local dev default; production is `https://api.thatmgmt.com`.
+
+## Start here
+
+- [Quickstart](/quickstart): first availability check and locked quote in five minutes.
+- [Authentication](/authentication): how API keys work.
+- [Concepts](/concepts): locked quotes, pricing, approvals, and the error model.
+- [API reference](/api/overview): every route, generated from the real spec.

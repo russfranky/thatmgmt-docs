@@ -1,0 +1,25 @@
+# Prepare a registration
+
+`GET /v1/domains/prepare-registration` returns the safety-checked registration plan for a domain. It prepares; it never executes.
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  "https://api.thatmgmt.com/v1/domains/prepare-registration?domain=example.com&period=1"
+```
+
+## Parameters
+
+| Name | Required | Description |
+| --- | --- | --- |
+| `domain` | yes | Fully qualified domain name. |
+| `period` | no | Registration period in years (default 1). |
+
+## What it does
+
+The endpoint validates the request against the locked quote, approvals, budget reservation, entitlements, and the kill switch, then returns the plan that would execute. Because execution is not wired live, the plan is where the flow stops today.
+
+Use it to show a customer exactly what would happen, including the wholesale-plus-10% total, before any money moves.
+
+## Responses
+
+`200` returns the plan. `401` means the key is missing or invalid. `503` means the route composition is not wired.

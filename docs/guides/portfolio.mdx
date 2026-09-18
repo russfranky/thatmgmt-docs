@@ -1,0 +1,35 @@
+# Read the portfolio
+
+The `/v1/portfolio` family gives white-label portfolio views for the trusted reseller context: domains, health, renewal risk, certificates, commerce, aftermarket, parking, hosting, and notifications. Every route is read-only.
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/portfolio
+
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/portfolio/health
+
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/portfolio/renewal-risk
+```
+
+## Key views
+
+| Route | What it returns |
+| --- | --- |
+| `GET /v1/portfolio` | Domain portfolio listing for the trusted reseller context. |
+| `GET /v1/portfolio/health` | Domain portfolio health summary. |
+| `GET /v1/portfolio/renewal-risk` | Renewal-risk view over the portfolio. |
+| `GET /v1/portfolio/context` | Trusted reseller customer context derived server-side for the tenant. |
+| `GET /v1/portfolio/actions` | Available portfolio actions (read-only listing). |
+| `GET /v1/portfolio/notifications` | Portfolio notifications for the trusted context. |
+| `GET /v1/portfolio/exceptions` | Prioritized read-only operator and AI exception queue. |
+| `GET /v1/portfolio/diagnostics` | Operator diagnostics for supplier catalog entitlements (no raw supplier secrets). |
+
+## Entitlement gating
+
+Some product families return `409` when the tenant is not entitled to them: certificates, commerce, broader health, aftermarket, parking, and hosting. A `409` means the family is not enabled for this tenant, not that the call was wrong. Check `GET /v1/offerings` for the entitlement and write-gating state of every family.
+
+## Responses
+
+`200` returns the view. `401` means the key is missing or invalid. `409` means the product family is not entitled. `503` means the route composition is not wired.

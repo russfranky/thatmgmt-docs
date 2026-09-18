@@ -1,0 +1,32 @@
+# For AI agents
+
+ThatMgmt is built for machine callers. These are the machine-readable entry points.
+
+## Live discovery
+
+Start every session with the capability inventory for your key:
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/capabilities
+```
+
+It returns exactly what your tenant can do. Do not assume routes outside it.
+
+## Reference files
+
+- [llms.txt](https://thatmgmt.com/llms.txt): short platform reference for language models.
+- [openapi.json](https://thatmgmt.com/openapi.json): the full machine-readable spec, 48 operations.
+- The same spec is vendored in this docs repo at `spec/openapi.json`, with a raw URL you can fetch without auth.
+
+This docs site also serves its own `llms.txt` automatically, so crawlers and assistants can index these pages.
+
+## MCP server
+
+A read-only MCP server exists for agent use: [github.com/russfranky/thatmgmt-mcp](https://github.com/russfranky/thatmgmt-mcp). It exposes health, availability, suggestions, quotes, registration preparation, portfolio reads, DNS reads, and offerings as MCP tools, with a two-step approval gate on quote-bound actions. It intentionally has no execute tools, matching the live API.
+
+## Spending rules for agents
+
+- Always call `GET /v1/domains/quote` before presenting a price. Availability prices are indicative, not verified.
+- Treat the locked quote total as the spend amount. It already includes the 10% platform cut.
+- Never claim you can register, renew, or transfer a domain through the API today. Execution is built but gated, not live. Say so plainly.

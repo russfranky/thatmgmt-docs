@@ -1,0 +1,18 @@
+# Webhooks
+
+ThatMgmt has exactly one inbound webhook endpoint: the Privy crypto-deposit intake.
+
+## Privy deposit intake
+
+`POST /v1/webhooks/privy` receives Svix-signed `wallet.funds_deposited` events from Privy. Each customer gets a unique crypto deposit address; when funds land, Privy signs an event and the platform ingests it to reconcile the deposit against the order.
+
+You do not call this endpoint yourself. Privy calls it, and the signature is verified server-side. There is no general webhook system and no other webhook route in the spec.
+
+## What happens after a deposit
+
+The platform reconciles the deposit and marks the order paid. Execution of the registration after payment exists in code but is gated and not live today, so a paid order currently stops at reconciliation. See the [roadmap](/roadmap) for status.
+
+## Reference
+
+- [API reference: Webhooks](/api/webhooks)
+- [Concepts: write gating](/concepts)

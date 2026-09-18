@@ -1,0 +1,26 @@
+# Offerings
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+Reseller offering coverage matrix.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `GET /v1/offerings`
+
+Reseller offering coverage matrix: every documented supplier family, its exposed routes, entitlement state, and write-gating.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---

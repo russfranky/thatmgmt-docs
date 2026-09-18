@@ -1,0 +1,1928 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "tmgmt Hosting Management API",
+    "version": "0.0.0",
+    "description": "Read-only management surface for the ThatMgmt hosting reseller layer. Every route is read-only (POST exists only for dry-run previews). Bearer-authenticated routes fail closed without wired auth/composition. Generated from src/route-registry.ts \u2014 do not edit by hand."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8787",
+      "description": "Dev/fixture default (HOSTING_HTTP_HOST/PORT)"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/health/live": {
+      "get": {
+        "summary": "Liveness probe. No authentication required.",
+        "operationId": "gethealth_live",
+        "tags": [
+          "platform",
+          "composition:health"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "404": {
+            "description": "Unknown route."
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "summary": "Readiness probe. No authentication required.",
+        "operationId": "gethealth_ready",
+        "tags": [
+          "platform",
+          "composition:health"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "404": {
+            "description": "Unknown route."
+          }
+        }
+      }
+    },
+    "/v1/capabilities": {
+      "get": {
+        "summary": "Machine-readable capability inventory for the authenticated tenant: the dynamic discovery endpoint.",
+        "operationId": "getv1_capabilities",
+        "tags": [
+          "platform",
+          "composition:management"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/webhooks/privy": {
+      "post": {
+        "summary": "Privy crypto-deposit webhook intake (Svix-signed wallet.funds_deposited events).",
+        "operationId": "postv1_webhooks_privy",
+        "tags": [
+          "platform",
+          "composition:management"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "404": {
+            "description": "Unknown route."
+          }
+        }
+      }
+    },
+    "/v1/operations/{operationId}": {
+      "get": {
+        "summary": "Inspect a tracked operation by id.",
+        "operationId": "getv1_operations_operationId",
+        "tags": [
+          "operations",
+          "composition:management"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "includeAudit",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1/true/yes to include the audit trail.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "auditLimit",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer cap on audit entries returned.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains": {
+      "get": {
+        "summary": "List tenant domain resources (paginated).",
+        "operationId": "getv1_domains",
+        "tags": [
+          "domains",
+          "composition:management"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer page size.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "description": "Opaque pagination cursor.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains/{resourceId}": {
+      "get": {
+        "summary": "Inspect a single domain resource by server-side resource id.",
+        "operationId": "getv1_domains_resourceId",
+        "tags": [
+          "domains",
+          "composition:management"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains/{resourceId}/dns": {
+      "get": {
+        "summary": "Inspect DNS records for a domain resource.",
+        "operationId": "getv1_domains_resourceId_dns",
+        "tags": [
+          "dns",
+          "composition:management"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "Record type filter, e.g. A, CNAME.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "description": "Record name filter.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer page number.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer page size.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains/{resourceId}/dns/preview": {
+      "post": {
+        "summary": "Dry-run preview of a DNS changeset. Read-only: never mutates live DNS.",
+        "operationId": "postv1_domains_resourceId_dns_preview",
+        "tags": [
+          "dns",
+          "composition:management"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON body with changeSet and options (see dns.previewChange).",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/context": {
+      "get": {
+        "summary": "Trusted reseller customer context derived server-side for the tenant.",
+        "operationId": "getv1_portfolio_context",
+        "tags": [
+          "customer-accounts",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/diagnostics": {
+      "get": {
+        "summary": "Operator diagnostics for supplier catalog entitlements (no raw supplier payloads).",
+        "operationId": "getv1_portfolio_diagnostics",
+        "tags": [
+          "portfolio",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/health": {
+      "get": {
+        "summary": "Domain portfolio health summary.",
+        "operationId": "getv1_portfolio_health",
+        "tags": [
+          "portfolio",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio": {
+      "get": {
+        "summary": "Domain portfolio listing for the trusted reseller context.",
+        "operationId": "getv1_portfolio",
+        "tags": [
+          "portfolio",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/renewal-risk": {
+      "get": {
+        "summary": "Renewal-risk view over the domain portfolio.",
+        "operationId": "getv1_portfolio_renewal_risk",
+        "tags": [
+          "portfolio",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/actions": {
+      "get": {
+        "summary": "Available portfolio actions for the trusted context (read-only listing).",
+        "operationId": "getv1_portfolio_actions",
+        "tags": [
+          "portfolio",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/notifications": {
+      "get": {
+        "summary": "Portfolio notifications for the trusted context.",
+        "operationId": "getv1_portfolio_notifications",
+        "tags": [
+          "notifications",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/notifications/schemas/{schemaName}": {
+      "get": {
+        "summary": "JSON schema for a named notification payload.",
+        "operationId": "getv1_portfolio_notifications_schemas_schemaName",
+        "tags": [
+          "notifications",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "schemaName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains/availability": {
+      "get": {
+        "summary": "Check domain availability via the supplier (read-only).",
+        "operationId": "getv1_domains_availability",
+        "tags": [
+          "domains",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "description": "Fully qualified domain name to check.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "optimizeFor",
+            "in": "query",
+            "required": false,
+            "description": "SPEED or ACCURACY.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains/suggestions": {
+      "get": {
+        "summary": "Suggest alternative domains for a query (read-only).",
+        "operationId": "getv1_domains_suggestions",
+        "tags": [
+          "domains",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "Search query.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer page size.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tlds",
+            "in": "query",
+            "required": false,
+            "description": "Comma-separated TLD filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains/quote": {
+      "get": {
+        "summary": "Quote a registration without purchasing. Provider quote tokens are never returned.",
+        "operationId": "getv1_domains_quote",
+        "tags": [
+          "domains",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "description": "Fully qualified domain name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "description": "Registration period in years (default 1).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/domains/prepare-registration": {
+      "get": {
+        "summary": "Prepare (never execute) a registration: returns the safety-checked plan only.",
+        "operationId": "getv1_domains_prepare_registration",
+        "tags": [
+          "domains",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "description": "Fully qualified domain name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "description": "Registration period in years (default 1).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/customers/{customerId}": {
+      "get": {
+        "summary": "Customer account details by customer id. No verified list endpoint exists; callers supply ids.",
+        "operationId": "getv1_customers_customerId",
+        "tags": [
+          "customer-accounts",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "includes",
+            "in": "query",
+            "required": false,
+            "description": "Comma-separated optional includes (contact_info, tax_ids, phone_numbers, addresses).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/customers/{customerId}/status": {
+      "get": {
+        "summary": "Customer account status.",
+        "operationId": "getv1_customers_customerId_status",
+        "tags": [
+          "customer-accounts",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "auditClientIp",
+            "in": "query",
+            "required": true,
+            "description": "Audited client IP for the status read.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/customers/dry-run": {
+      "post": {
+        "summary": "Dry-run plan for creating a sub-account. Write-gated, default OFF, never executed live.",
+        "operationId": "postv1_customers_dry_run",
+        "tags": [
+          "customer-accounts",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON body with email, nameFirst, nameLast, and optional marketId.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/customers/{customerId}/dry-run": {
+      "post": {
+        "summary": "Dry-run plan for updating, deleting, or setting the password of a sub-account. Write-gated, default OFF, never executed live.",
+        "operationId": "postv1_customers_customerId_dry_run",
+        "tags": [
+          "customer-accounts",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON body with operation (update_subaccount | delete_subaccount | set_subaccount_password) plus operation fields.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/certificates/{certificateId}/actions": {
+      "get": {
+        "summary": "Lifecycle actions for a certificate.",
+        "operationId": "getv1_certificates_certificateId_actions",
+        "tags": [
+          "ssl-certificates",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/certificates/{certificateId}/download": {
+      "get": {
+        "summary": "Download a certificate (JSON content types).",
+        "operationId": "getv1_certificates_certificateId_download",
+        "tags": [
+          "ssl-certificates",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/certificates/{certificateId}/domains/{domainName}": {
+      "get": {
+        "summary": "Certificate domain detail.",
+        "operationId": "getv1_certificates_certificateId_domains_domainName",
+        "tags": [
+          "ssl-certificates",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "domainName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/certificates/{certificateId}/domains/{domainName}/control": {
+      "get": {
+        "summary": "Domain-control validation status for a certificate domain.",
+        "operationId": "getv1_certificates_certificateId_domains_domainName_control",
+        "tags": [
+          "ssl-certificates",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "domainName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/certificates/{certificateId}/email-history": {
+      "get": {
+        "summary": "Email history for a certificate.",
+        "operationId": "getv1_certificates_certificateId_email_history",
+        "tags": [
+          "ssl-certificates",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/certificates/{certificateId}/site-seal": {
+      "get": {
+        "summary": "Site seal for a certificate.",
+        "operationId": "getv1_certificates_certificateId_site_seal",
+        "tags": [
+          "ssl-certificates",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "themeName",
+            "in": "query",
+            "required": false,
+            "description": "Seal theme name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "description": "Seal locale.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/subscriptions": {
+      "get": {
+        "summary": "List subscriptions (v1 limit/marker pagination via the opaque pageToken).",
+        "operationId": "getv1_subscriptions",
+        "tags": [
+          "commerce",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer page size.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "description": "Opaque pagination cursor.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}": {
+      "get": {
+        "summary": "Get a subscription by id.",
+        "operationId": "getv1_subscriptions_subscriptionId",
+        "tags": [
+          "commerce",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/orders": {
+      "get": {
+        "summary": "List orders (v1 limit/marker pagination via the opaque pageToken).",
+        "operationId": "getv1_orders",
+        "tags": [
+          "commerce",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer page size.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "description": "Opaque pagination cursor.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/orders/{orderId}": {
+      "get": {
+        "summary": "Get an order by id.",
+        "operationId": "getv1_orders_orderId",
+        "tags": [
+          "commerce",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/agreements": {
+      "get": {
+        "summary": "List agreements (reference data).",
+        "operationId": "getv1_agreements",
+        "tags": [
+          "catalog",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "marketId",
+            "in": "query",
+            "required": false,
+            "description": "Market filter, e.g. en-US.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Positive integer page size.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "description": "Opaque pagination cursor.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/countries": {
+      "get": {
+        "summary": "Country reference list.",
+        "operationId": "getv1_countries",
+        "tags": [
+          "catalog",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/aftermarket/listings": {
+      "get": {
+        "summary": "Legacy auction listings for a customer. Bid history has no verified read endpoint and is not exposed.",
+        "operationId": "getv1_aftermarket_listings",
+        "tags": [
+          "aftermarket",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "description": "Customer id owning the listings.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/notifications/{notificationId}/acknowledge/dry-run": {
+      "post": {
+        "summary": "Dry-run plan for acknowledging a notification. Write-gated, default OFF, never executed live.",
+        "operationId": "postv1_portfolio_notifications_notificationId_acknowledge_dry_run",
+        "tags": [
+          "notifications",
+          "composition:portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "notificationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/catalog": {
+      "get": {
+        "summary": "Supplier API catalog status: documented families, probe state, and required scopes.",
+        "operationId": "getv1_portfolio_catalog",
+        "tags": [
+          "catalog",
+          "composition:catalog"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/certificates": {
+      "get": {
+        "summary": "Certificate inventory for the trusted customer. 409 when the certificates category is unverified.",
+        "operationId": "getv1_portfolio_certificates",
+        "tags": [
+          "ssl-certificates",
+          "composition:broader-portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/commerce": {
+      "get": {
+        "summary": "Commerce store/channel/transaction reads for the trusted customer. 409 when unverified.",
+        "operationId": "getv1_portfolio_commerce",
+        "tags": [
+          "commerce",
+          "composition:broader-portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/broader-health": {
+      "get": {
+        "summary": "Consolidated broader-product health: certificate expiration/status/renewal risk plus Commerce health and exceptions. Supplier reads are restricted server-side to entitled categories; derived evidence only \u2014 raw supplier payloads stay internal.",
+        "operationId": "getv1_portfolio_broader_health",
+        "tags": [
+          "portfolio",
+          "composition:broader-portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/exceptions": {
+      "get": {
+        "summary": "Prioritized read-only operator/AI exception queue derived from entitled portfolio health; supplier payloads remain internal.",
+        "operationId": "getv1_portfolio_exceptions",
+        "tags": [
+          "portfolio",
+          "composition:broader-portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "405": {
+            "description": "Method not allowed. The exception queue is GET-only; no response body.",
+            "headers": {
+              "Allow": {
+                "description": "Supported methods.",
+                "schema": {
+                  "type": "string",
+                  "example": "GET"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Portfolio category not verified. No entitled categories for the trusted customer (certificates, commerce); the body is the standard error envelope with code \"ApprovalRequired\".",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "ApprovalRequired"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Portfolio category is not verified"
+                    },
+                    "retryable": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "reason": "portfolio_category_unverified"
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/offerings": {
+      "get": {
+        "summary": "Reseller offering coverage matrix: every documented supplier family, its exposed routes, entitlement state, and write-gating.",
+        "operationId": "getv1_offerings",
+        "tags": [
+          "offerings",
+          "composition:offerings"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/aftermarket": {
+      "get": {
+        "summary": "Aftermarket/auction reads for the trusted customer. 409 when the auctions category is unverified.",
+        "operationId": "getv1_portfolio_aftermarket",
+        "tags": [
+          "aftermarket",
+          "composition:extended-portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/parking": {
+      "get": {
+        "summary": "Parked-domain reads for the trusted customer. 409 when the parking category is unverified.",
+        "operationId": "getv1_portfolio_parking",
+        "tags": [
+          "parking",
+          "composition:extended-portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    },
+    "/v1/portfolio/hosting": {
+      "get": {
+        "summary": "Hosting-product reads for the trusted customer. 409 when the hosting category is unverified.",
+        "operationId": "getv1_portfolio_hosting",
+        "tags": [
+          "hosting",
+          "composition:extended-portfolio"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success (envelope varies per route; see README)."
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential."
+          },
+          "404": {
+            "description": "Unknown route."
+          },
+          "503": {
+            "description": "Route composition not wired (auth or deps missing)."
+          }
+        }
+      }
+    }
+  }
+}

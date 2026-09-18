@@ -1,0 +1,27 @@
+# Lock a quote
+
+`GET /v1/domains/quote` quotes a registration without purchasing. The quote is the locked price: wholesale cost plus the flat 10% platform cut, bound into one payable total.
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  "https://api.thatmgmt.com/v1/domains/quote?domain=example.com&period=1"
+```
+
+## Parameters
+
+| Name | Required | Description |
+| --- | --- | --- |
+| `domain` | yes | Fully qualified domain name. |
+| `period` | no | Registration period in years (default 1). |
+
+## What the quote gives you
+
+- The verified payable total your approval and budget bind to.
+- No provider quote tokens: they are never returned.
+- No purchase: quoting never spends anything and never registers the domain.
+
+Locked quotes fail closed. If the supplier-cost provenance is stale or unverified, the quote fails instead of returning a guessed price.
+
+## Responses
+
+`200` returns the locked quote. `401` means the key is missing or invalid. `503` means the route composition is not wired.

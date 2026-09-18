@@ -1,0 +1,56 @@
+# Subscriptions
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+Subscription reads.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `GET /v1/subscriptions`
+
+List subscriptions (v1 limit/marker pagination via the opaque pageToken).
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `pageSize` | query | no | Positive integer page size. (string) |
+| `pageToken` | query | no | Opaque pagination cursor. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/subscriptions/{subscriptionId}`
+
+Get a subscription by id.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `subscriptionId` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---

@@ -1,0 +1,36 @@
+# API reference overview
+
+Every page in this reference is generated from the real OpenAPI spec (`spec/openapi.json` in this repo, copied from `docs/openapi.json` on thatmgmt main). Nothing here is hand-written, so the reference cannot drift from the API.
+
+- Base URL: `https://api.thatmgmt.com`
+- Auth: Bearer <redacted> (JWT) on all routes except the health probes.
+- The spec lists 48 operations across 13 groups.
+- Response envelopes vary per route; the spec does not publish field-level response schemas. Each endpoint documents its status codes and the error model from the spec.
+
+## Groups
+
+| Group | Routes | Contents |
+| --- | --- | --- |
+| [Health](/api/health) | 2 | Liveness and readiness probes, no auth. |
+| [Capabilities](/api/capabilities) | 1 | Machine-readable capability inventory for your tenant. |
+| [Domains](/api/domains) | 8 | Availability, suggestions, quote, prepare-registration, listing, DNS reads, DNS preview. |
+| [Certificates](/api/certificates) | 6 | Certificate inventory and lifecycle reads. |
+| [Customers](/api/customers) | 4 | Sub-account reads and dry-run plans. |
+| [Portfolio](/api/portfolio) | 17 | Portfolio views across products. |
+| [Orders](/api/orders) | 2 | Order reads. |
+| [Subscriptions](/api/subscriptions) | 2 | Subscription reads. |
+| [Operations](/api/operations) | 1 | Tracked operation reads. |
+| [Offerings](/api/offerings) | 1 | Coverage matrix for every supplier family. |
+| [Aftermarket](/api/aftermarket) | 1 | Auction listing reads. |
+| [Reference data](/api/reference-data) | 2 | Agreements and countries. |
+| [Webhooks](/api/webhooks) | 1 | Privy crypto-deposit intake. |
+
+## Regenerating
+
+When the spec changes, refresh `spec/openapi.json` from thatmgmt main and run:
+
+```bash
+python3 scripts/generate-api-reference.py spec/openapi.json --out docs/api
+```
+
+The script fails if any route is ungrouped or the count mismatches, so a bad generation cannot ship silently.

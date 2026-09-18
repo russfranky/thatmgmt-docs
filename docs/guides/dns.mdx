@@ -1,0 +1,26 @@
+# Read DNS
+
+DNS reads go through the domain resource. List your domains, pick the server-side resource id, then read its records.
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  "https://api.thatmgmt.com/v1/domains?pageSize=25"
+
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/domains/RESOURCE_ID/dns
+```
+
+`GET /v1/domains` lists tenant domain resources (paginated with `pageSize` and the opaque `pageToken` cursor). `GET /v1/domains/{resourceId}` inspects one resource. `GET /v1/domains/{resourceId}/dns` inspects its DNS records.
+
+## Preview a DNS change
+
+`POST /v1/domains/{resourceId}/dns/preview` returns a dry-run preview of a DNS changeset. It is read-only and never mutates live DNS.
+
+```bash
+curl -X POST -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/domains/RESOURCE_ID/dns/preview
+```
+
+## Responses
+
+`200` returns the records or the preview. `401` means the key is missing or invalid. `404` means the resource id is unknown. `503` means the route composition is not wired.

@@ -1,0 +1,312 @@
+# Portfolio
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+Reseller portfolio views across products.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `GET /v1/portfolio`
+
+Domain portfolio listing for the trusted reseller context.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/actions`
+
+Available portfolio actions for the trusted context (read-only listing).
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/aftermarket`
+
+Aftermarket/auction reads for the trusted customer. 409 when the auctions category is unverified.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/broader-health`
+
+Consolidated broader-product health: certificate expiration/status/renewal risk plus Commerce health and exceptions. Supplier reads are restricted server-side to entitled categories; derived evidence only , raw supplier payloads stay internal.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/catalog`
+
+Supplier API catalog status: documented families, probe state, and required scopes.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/certificates`
+
+Certificate inventory for the trusted customer. 409 when the certificates category is unverified.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/commerce`
+
+Commerce store/channel/transaction reads for the trusted customer. 409 when unverified.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/context`
+
+Trusted reseller customer context derived server-side for the tenant.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/diagnostics`
+
+Operator diagnostics for supplier catalog entitlements (no raw supplier payloads).
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/exceptions`
+
+Prioritized read-only operator/AI exception queue derived from entitled portfolio health; supplier payloads remain internal.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `405` | Method not allowed. The exception queue is GET-only; no response body. |
+| `409` | Portfolio category not verified. No entitled categories for the trusted customer (certificates, commerce); the body is the standard error envelope with code "ApprovalRequired". |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/health`
+
+Domain portfolio health summary.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/hosting`
+
+Hosting-product reads for the trusted customer. 409 when the hosting category is unverified.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/notifications`
+
+Portfolio notifications for the trusted context.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/notifications/schemas/{schemaName}`
+
+JSON schema for a named notification payload.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `schemaName` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `POST /v1/portfolio/notifications/{notificationId}/acknowledge/dry-run`
+
+Dry-run plan for acknowledging a notification. Write-gated, default OFF, never executed live.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `notificationId` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/parking`
+
+Parked-domain reads for the trusted customer. 409 when the parking category is unverified.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/portfolio/renewal-risk`
+
+Renewal-risk view over the domain portfolio.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---

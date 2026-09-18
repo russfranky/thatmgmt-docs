@@ -1,0 +1,21 @@
+# Check offerings
+
+`GET /v1/offerings` returns the reseller offering coverage matrix: every documented supplier family, its exposed routes, entitlement state, and write-gating.
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/offerings
+```
+
+## What it tells you
+
+- Which product families exist (domains, certificates, commerce, aftermarket, parking, hosting, notifications, customer accounts).
+- Which routes each family exposes.
+- Whether your tenant is entitled to each family (a non-entitled family returns `409` on its reads).
+- The write-gating state: supplier writes stay disabled on the live API.
+
+Call this before building a feature that spans product families, so you only depend on families your tenant is entitled to.
+
+## Responses
+
+`200` returns the matrix. `401` means the key is missing or invalid. `503` means the route composition is not wired.

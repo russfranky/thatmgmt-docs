@@ -1,0 +1,34 @@
+# Operations
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+Tracked operation reads.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `GET /v1/operations/{operationId}`
+
+Inspect a tracked operation by id.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `operationId` | path | yes | (string) |
+| `includeAudit` | query | no | Set to 1/true/yes to include the audit trail. (string) |
+| `auditLimit` | query | no | Positive integer cap on audit entries returned. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---

@@ -1,0 +1,151 @@
+# Certificates
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+SSL certificate inventory and lifecycle reads.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `GET /v1/certificates/{certificateId}/actions`
+
+Lifecycle actions for a certificate.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `certificateId` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/certificates/{certificateId}/domains/{domainName}`
+
+Certificate domain detail.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `certificateId` | path | yes | (string) |
+| `domainName` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/certificates/{certificateId}/domains/{domainName}/control`
+
+Domain-control validation status for a certificate domain.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `certificateId` | path | yes | (string) |
+| `domainName` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/certificates/{certificateId}/download`
+
+Download a certificate (JSON content types).
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `certificateId` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/certificates/{certificateId}/email-history`
+
+Email history for a certificate.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `certificateId` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/certificates/{certificateId}/site-seal`
+
+Site seal for a certificate.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `certificateId` | path | yes | (string) |
+| `themeName` | query | no | Seal theme name. (string) |
+| `locale` | query | no | Seal locale. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---

@@ -1,0 +1,43 @@
+# Concepts
+
+## Locked quotes
+
+A locked quote is the core primitive. When you call `GET /v1/domains/quote`, the platform binds the supplier wholesale cost plus the flat 10% platform cut into a single payable total. That total is what approvals, budget reservations, and grant ceilings bind to. There is one quote per domain and period, and provider quote tokens are never returned to you.
+
+Locked quotes fail closed: if the supplier-cost provenance is stale or unverified, the quote fails instead of guessing a price.
+
+## Wholesale plus 10% pricing
+
+Every price you see is wholesale plus a flat 10% platform cut. No subscription, no tiers. The three spend actions (registration, renewal, transfer) carry the cut; zero-charge changes such as DNS edits stay free.
+
+Note: availability responses may include prices, but those are not verified account-specific wholesale costs. Only a locked quote is a verified price.
+
+## Approvals and budgets
+
+Spending is gated by approvals and budget reservations that bind to the locked quote total. The platform validates the approval, reserves the budget, and checks grant ceilings before any execution step. These are platform behaviors, not separate API endpoints: there are no approval or budget routes in the spec.
+
+## Dry-run previews
+
+Some POST routes exist only to return a plan and never mutate anything:
+
+- `POST /v1/domains/{resourceId}/dns/preview`: dry-run preview of a DNS changeset. Read-only, never touches live DNS.
+- `POST /v1/customers/dry-run` and `POST /v1/customers/{customerId}/dry-run`: dry-run plans for sub-account changes. Write-gated, default off, never applied.
+- `POST /v1/portfolio/notifications/{notificationId}/acknowledge/dry-run`: dry-run plan for acknowledging a notification.
+
+## Error model
+
+The spec defines these status codes:
+
+| Code | Meaning |
+| --- | --- |
+| `200` | Success. Response envelopes vary per route. |
+| `401` | Missing or invalid Bearer <redacted> |
+| `404` | Unknown route. |
+| `409` | Returned by some entitlement-gated reads when the product family is not entitled for the tenant. |
+| `503` | Route composition not wired (auth or dependencies missing). |
+
+Policy denials surface as `AuthorizationDenied` in the error envelope, with the reason, action, and policy in the details.
+
+## Write gating
+
+Supplier writes stay disabled on the live API. Execution endpoints for registration, renewal, and transfer exist in code but are not wired live: the kill switch is tripped and the spend path is not connected. Nothing in these docs presents execution as live. See the [roadmap](/roadmap).

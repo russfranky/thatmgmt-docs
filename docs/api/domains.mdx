@@ -1,0 +1,207 @@
+# Domains
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+Domain discovery, quotes, registration preparation, and DNS reads.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `GET /v1/domains`
+
+List tenant domain resources (paginated).
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `pageSize` | query | no | Positive integer page size. (string) |
+| `pageToken` | query | no | Opaque pagination cursor. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/domains/availability`
+
+Check domain availability via the supplier (read-only).
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `domain` | query | yes | Fully qualified domain name to check. (string) |
+| `optimizeFor` | query | no | SPEED or ACCURACY. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/domains/prepare-registration`
+
+Prepare (never execute) a registration: returns the safety-checked plan only.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `domain` | query | yes | Fully qualified domain name. (string) |
+| `period` | query | no | Registration period in years (default 1). (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/domains/quote`
+
+Quote a registration without purchasing. Provider quote tokens are never returned.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `domain` | query | yes | Fully qualified domain name. (string) |
+| `period` | query | no | Registration period in years (default 1). (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/domains/suggestions`
+
+Suggest alternative domains for a query (read-only).
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `query` | query | yes | Search query. (string) |
+| `pageSize` | query | no | Positive integer page size. (string) |
+| `tlds` | query | no | Comma-separated TLD filter. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/domains/{resourceId}`
+
+Inspect a single domain resource by server-side resource id.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `resourceId` | path | yes | (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `GET /v1/domains/{resourceId}/dns`
+
+Inspect DNS records for a domain resource.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `resourceId` | path | yes | (string) |
+| `type` | query | no | Record type filter, e.g. A, CNAME. (string) |
+| `name` | query | no | Record name filter. (string) |
+| `page` | query | no | Positive integer page number. (string) |
+| `pageSize` | query | no | Positive integer page size. (string) |
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---
+
+## `POST /v1/domains/{resourceId}/dns/preview`
+
+Dry-run preview of a DNS changeset. Read-only: never mutates live DNS.
+
+**Auth:** Bearer <redacted> (JWT) required
+
+### Parameters
+
+| Name | In | Required | Description |
+| --- | --- | --- | --- |
+| `resourceId` | path | yes | (string) |
+
+### Request body
+
+JSON body with changeSet and options (see dns.previewChange).
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `401` | Missing or invalid bearer credential. |
+| `404` | Unknown route. |
+| `503` | Route composition not wired (auth or deps missing). |
+
+---

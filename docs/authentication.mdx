@@ -1,0 +1,26 @@
+# Authentication
+
+The API uses Bearer <redacted> authentication. Send your key in the `Authorization` header on every call except the health probes:
+
+```bash
+curl -H "Authorization: Bearer $TMGMT_API_KEY" \
+  https://api.thatmgmt.com/v1/capabilities
+```
+
+## Key format
+
+Keys are JWT bearer tokens, per the API's OpenAPI security scheme (`bearerAuth`, HTTP bearer, JWT format).
+
+## Getting a key
+
+API keys are issued by your ThatMgmt operator. The API has no self-serve signup or key-issuance route, so if you need a key, ask the operator who provisioned your tenant.
+
+## Tenant context
+
+Auth is Bearer <redacted> with an optional reseller `X-Shopper-Id` taken from server-side tenant context. You do not need to set this header yourself; the platform derives the tenant from your key.
+
+## Failure behavior
+
+- No token or an invalid token returns `401`.
+- An authenticated caller without the right grant for a route is denied fail-closed.
+- Start with `GET /v1/capabilities` to see the capability inventory for your tenant: it is the dynamic discovery endpoint and shows exactly what your key can do.

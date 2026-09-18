@@ -1,0 +1,39 @@
+# Health
+
+> Auto-generated from `spec/openapi.json` (thatmgmt main `a646dfa4`, 2026-09-18). Do not edit by hand. Re-run `scripts/generate-api-reference.py`.
+
+Base URL: `https://api.thatmgmt.com` (the spec file lists a dev default; production is `https://api.thatmgmt.com`).
+
+Liveness and readiness probes. No authentication required.
+
+Response envelopes vary per route; the spec does not publish field-level response schemas, so shapes below describe status codes and the error model from the spec.
+
+## `GET /health/live`
+
+Liveness probe. No authentication required.
+
+**Auth:** None required (public endpoint)
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `404` | Unknown route. |
+
+---
+
+## `GET /health/ready`
+
+Readiness probe. No authentication required.
+
+**Auth:** None required (public endpoint)
+
+### Responses
+
+| Code | Description |
+| --- | --- |
+| `200` | Success (envelope varies per route; see README). |
+| `404` | Unknown route. |
+
+---
